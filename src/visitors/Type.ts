@@ -6,10 +6,10 @@ import { Visitor } from "./Visitor";
  */
 export class Type implements Visitor {
 
-  private _isConst: boolean = false;
-  private _isVar:   boolean = false;
-  private _isSom:   boolean = false;
-  private _isProd:  boolean = false;
+  private _isConst = false;
+  private _isVar = false;
+  private _isSom = false;
+  private _isProd = false;
 
   public get isConst() {
     return this._isConst;
@@ -27,22 +27,22 @@ export class Type implements Visitor {
     return this._isProd;
   }
 
-  visitConst(expr: Const): void {
+  visitConst(expr: Const): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     this._isConst = this._isProd = this._isSom = this._isVar = false;
     this._isConst = true;
   }
 
-  visitVar(expr: Var): void {
+  visitVar(expr: Var): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     this._isConst = this._isProd = this._isSom = this._isVar = false;
     this._isVar = true;
   }
 
-  visitSom(expr: Som): void {
+  visitSom(expr: Som): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     this._isConst = this._isProd = this._isSom = this._isVar = false;
     this._isSom = true;
   }
 
-  visitProd(expr: Prod): void {
+  visitProd(expr: Prod): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     this._isConst = this._isProd = this._isSom = this._isVar = false;
     this._isProd = true;
   }

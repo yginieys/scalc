@@ -9,7 +9,7 @@ describe('testing Type visitor', () => {
   });
 
   test('Type Const', () => {
-    let expr = new Const(-2);
+    const expr = new Const(-2);
     expr.accept(type);
     expect(type.isConst).toBe(true);
     expect(type.isVar).toBe(false);
@@ -18,7 +18,7 @@ describe('testing Type visitor', () => {
   });
 
   test('Type Var', () => {
-    let expr = new Var('x');
+    const expr = new Var('x');
     expr.accept(type);
     expect(type.isConst).toBe(false);
     expect(type.isVar).toBe(true);
@@ -27,7 +27,7 @@ describe('testing Type visitor', () => {
   });
 
   test('Type Som', () => {
-    let expr = new Som([]);
+    const expr = new Som([]);
     expr.accept(type);
     expect(type.isConst).toBe(false);
     expect(type.isVar).toBe(false);
@@ -36,7 +36,7 @@ describe('testing Type visitor', () => {
   });
 
   test('Type Prod', () => {
-    let expr = new Prod([]);
+    const expr = new Prod([]);
     expr.accept(type);
     expect(type.isConst).toBe(false);
     expect(type.isVar).toBe(false);

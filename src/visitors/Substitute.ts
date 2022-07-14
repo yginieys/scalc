@@ -1,4 +1,4 @@
-import { Const, Var, Som, Prod, Expr } from "expr";
+import { Var,  Expr } from "expr";
 import { Copy } from "./Copy";
 
 export class Substitute extends Copy {
