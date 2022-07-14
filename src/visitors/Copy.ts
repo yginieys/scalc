@@ -3,7 +3,7 @@ import { Visitor } from "./Visitor";
 
 export class Copy implements Visitor {
 
-  private _result: Expr|null = null;
+  protected _result: Expr|null = null;
 
   public get result(): Expr|null {
     return this._result;
@@ -12,7 +12,7 @@ export class Copy implements Visitor {
   visitConst(expr: Const): void {
     this._result = new Const(expr.val);
   }
-  
+
   visitVar(expr: Var): void {
     this._result = new Var(expr.name);
   }
