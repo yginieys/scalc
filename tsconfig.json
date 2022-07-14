@@ -10,10 +10,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "baseUrl": "src",
-    "paths": {
-      "@expr" : ["expr"]
-    }
+    "baseUrl": "src"
   },
   "include": [ "src/**/*", "tests/**/*" ],
   "exclude": ["node_modules"]

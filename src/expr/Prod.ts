@@ -2,18 +2,17 @@ import { Visitor } from "visitors/Visitor";
 import { Expr } from "./Expr";
 
 /**
- * Représente une constante
+ * Représente un produit
  */
-export class Const extends Expr {
-
+export class Prod extends Expr {
+  
   constructor(
-    public readonly val: number
+    public readonly args: Expr[]
   ) {
     super();
   }
 
   accept(visitor: Visitor): void {
-    visitor.visitConst(this);
+    visitor.visitProd(this);
   }
-
 }
