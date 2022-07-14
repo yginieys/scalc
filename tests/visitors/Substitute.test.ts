@@ -23,6 +23,42 @@ describe('testing Type visitor', () => {
     assertExprIs(result, 'y');
   })
 
+  test('Substitute x by y in 2x^3', () => {
+    const subst = new Substitute('x', new Var('y'));
+    const expr = new Var('x', 2, 3);
+    expr.accept(subst);
+    const result = subst.result;
+    
+    assertExprIs(result, '2y^3');
+  })
+
+  test('Substitute x by 4y^2 in 2x^3', () => {
+    const subst = new Substitute('x', new Var('y', 4, 2));
+    const expr = new Var('x', 2, 3);
+    expr.accept(subst);
+    const result = subst.result;
+    
+    assertExprIs(result, '8y^6');
+  })
+
+  test('Substitute x by y in 2x^0', () => {
+    const subst = new Substitute('x', new Var('y'));
+    const expr = new Var('x', 2, 0);
+    expr.accept(subst);
+    const result = subst.result;
+    
+    assertExprIs(result, '2y^0');
+  })
+
+  test('Substitute x by y+1 in 2x^0', () => {
+    const subst = new Substitute('x', new Som([new Var('y'), new Const(1)]));
+    const expr = new Var('x', 2, 0);
+    expr.accept(subst);
+    const result = subst.result;
+    
+    assertExprIs(result, '2');
+  })
+
   test('Substitute x by y+1 in x*y', () => {
     const subst = new Substitute('x', new Som([new Var('y'), new Const(1)]));
     const expr = new Prod([new Var('x'), new Var('y')]);

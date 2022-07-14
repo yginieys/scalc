@@ -16,7 +16,16 @@ export class Print implements Visitor {
   }
 
   visitVar(expr: Var): void {
+    if(expr.coefficient != 1 && expr.coefficient != -1) {
+      this._result += expr.coefficient;
+    } else if(expr.coefficient == -1) {
+      this._result += '-';
+    }
     this._result += expr.name;
+    if(expr.exposant != 1) {
+      this._result += '^';
+      this._result += expr.exposant;
+    }
   }
 
   visitSom(expr: Som): void {

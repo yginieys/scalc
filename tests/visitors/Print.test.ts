@@ -26,6 +26,24 @@ describe('testing Print visitor', () => {
     expect(print.result).toBe("x");
   });
 
+  test('Print Var 2x^3', () => {
+    const expr = new Var('x', 2, 3);
+    expr.accept(print);
+    expect(print.result).toBe("2x^3");
+  });
+
+  test('Print Var -x', () => {
+    const expr = new Var('x', -1);
+    expr.accept(print);
+    expect(print.result).toBe("-x");
+  });
+
+  test('Print Var -2x', () => {
+    const expr = new Var('x', -2);
+    expr.accept(print);
+    expect(print.result).toBe("-2x");
+  });
+
   test('Print Som 2+2', () => {
     const expr = new Som([
       new Const(2),

@@ -26,6 +26,15 @@ describe('testing Type visitor', () => {
     expect(expr2).not.toBe(expr);
   })
 
+  test('Copy Var -x^2', () => {
+    const expr = new Var('x', -1, 2);
+    expr.accept(copy);
+    const expr2 = copy.result;
+
+    expect(expr2).toEqual(expr);
+    expect(expr2).not.toBe(expr);
+  })
+
   test('Copy Som x+1', () => {
     const expr = new Som([
       new Var('x'),

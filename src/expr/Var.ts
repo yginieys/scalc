@@ -7,7 +7,9 @@ import { Expr } from "./Expr";
 export class Var extends Expr {
 
   constructor(
-    public readonly name: string
+    public readonly name: string,
+    public readonly coefficient: number = 1,
+    public readonly exposant: number = 1
   ) {
     super();
   }

@@ -14,7 +14,7 @@ export class Copy implements Visitor {
   }
 
   visitVar(expr: Var): void {
-    this._result = new Var(expr.name);
+    this._result = new Var(expr.name, expr.coefficient, expr.exposant);
   }
 
   visitSom(expr: Som): void {
