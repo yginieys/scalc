@@ -1,4 +1,4 @@
-import { Expr } from '../src/models/expr/Expr';
+import { Expr } from '@expr';
  
 describe('testing index file', () => {
   test('empty string should result in zero', () => {
