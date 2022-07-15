@@ -3,7 +3,7 @@ import { Copy } from "visitors/Copy";
 import { Print } from "visitors/Print";
 import { Substitute } from "visitors/Substitute";
 
-describe('testing Type visitor', () => {
+describe('testing Substitute visitor', () => {
 
   test('Substitute x by y in 1', () => {
     const subst = new Substitute('x', new Var('y'));
@@ -57,6 +57,15 @@ describe('testing Type visitor', () => {
     const result = subst.result;
     
     assertExprIs(result, '2');
+  })
+
+  test('Substitute x by y+1 in x^3', () => {
+    const subst = new Substitute('x', new Som([new Var('y'), new Const(1)]));
+    const expr = new Var('x', 1, 3);
+    expr.accept(subst);
+    const result = subst.result;
+    
+    assertExprIs(result, '(y+1)*(y+1)*(y+1)');
   })
 
   test('Substitute x by y+1 in x*y', () => {

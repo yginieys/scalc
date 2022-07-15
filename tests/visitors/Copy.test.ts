@@ -1,7 +1,7 @@
 import { Const, Prod, Som, Var } from "expr";
 import { Copy } from "visitors/Copy";
 
-describe('testing Type visitor', () => {
+describe('testing Copy visitor', () => {
   let copy: Copy;
 
   beforeEach(() => {
