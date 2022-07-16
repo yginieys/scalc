@@ -1,8 +1,15 @@
-import { Const, Var, Som, Prod } from "expr";
+import { Const, Var, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 /**
- * Get the type of an Expr
+ * Get the type of an Expr.
+ * Sample of use :
+ *   let expr: Expr = ...
+ *   const type = new Type();
+ *   expr.accept(type);
+ *   if(type.const != null) {
+ *     expr is a Const and type.const is expr casted as a Const
+ *   }
  */
 export class Type implements Visitor {
 
@@ -25,6 +32,13 @@ export class Type implements Visitor {
 
   public get prod(): Prod|null {
     return this._prod;
+  }
+
+  /**
+   * @param expr Convenient method for expr.accept(this)
+   */
+  public test(expr: Expr) {
+    expr.accept(this);
   }
 
   visitConst(expr: Const): void { // eslint-disable-line @typescript-eslint/no-unused-vars
