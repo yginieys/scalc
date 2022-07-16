@@ -11,8 +11,8 @@ describe('testing Add visitor', () => {
 
   test('Add 1', () => {
     const one = new Const(1);
-    add.add(one);
-    const result = add.result;
+    add.push(one);
+    const result = add.eval();
     
     assertExprIs(result, '1');
   })
@@ -20,9 +20,9 @@ describe('testing Add visitor', () => {
   test('Add 1+2 ', () => {
     const one = new Const(1);
     const two = new Const(2);
-    add.add(one);
-    add.add(two);
-    const result = add.result;
+    add.push(one);
+    add.push(two);
+    const result = add.eval();
     
     assertExprIs(result, '3');
   })
@@ -30,47 +30,47 @@ describe('testing Add visitor', () => {
   test('Add 1+x ', () => {
     const one = new Const(1);
     const x = new Var('x');
-    add.add(one);
-    add.add(x);
-    const result = add.result;
+    add.push(one);
+    add.push(x);
+    const result = add.eval();
     
     assertExprIs(result, 'x+1');
   })
 
   test('Add 2x+1+x ', () => {
-    add.add(new Var('x', 2));
-    add.add(new Const(1));
-    add.add(new Var('x'));
-    const result = add.result;
+    add.push(new Var('x', 2));
+    add.push(new Const(1));
+    add.push(new Var('x'));
+    const result = add.eval();
     
     assertExprIs(result, '3x+1');
   })
 
   test('Add 2x^2 + x + x^2', () => {
-    add.add(new Var('x', 2, 2));
-    add.add(new Var('x'));
-    add.add(new Var('x', 1, 2));
-    const result = add.result;
+    add.push(new Var('x', 2, 2));
+    add.push(new Var('x'));
+    add.push(new Var('x', 1, 2));
+    const result = add.eval();
     
     assertExprIs(result, '3x^2+x');
   })
 
   test('Add 2y + x + y', () => {
-    add.add(new Var('y', 2));
-    add.add(new Var('x'));
-    add.add(new Var('y'));
-    const result = add.result;
+    add.push(new Var('y', 2));
+    add.push(new Var('x'));
+    add.push(new Var('y'));
+    const result = add.eval();
     
     assertExprIs(result, 'x+3y');
   })
 
   test('Add 2x + 2*x', () => {
-    add.add(new Var('x', 2));
-    add.add(new Prod([
+    add.push(new Var('x', 2));
+    add.push(new Prod([
       new Const(2),
       new Var('x')
     ]));
-    const result = add.result;
+    const result = add.eval();
     
     assertExprIs(result, '4x');
   })

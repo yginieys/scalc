@@ -7,7 +7,12 @@ export class Add implements Visitor {
   private varByName: {[key:string]: { name: string, coefficient: number, exposant: number }} = {};
   private otherExprs: Expr [] = [];
 
-  public get result(): Expr {
+
+  /**
+   * Build the result of this Add
+   * @returns Som
+   */
+  public eval(): Som {
     // process Vars
     const args: Expr[] = [];
     let varNames = Object.keys(this.varByName);
@@ -29,7 +34,12 @@ export class Add implements Visitor {
     return new Som(args);
   }
 
-  public add(expr: Expr) {
+  /**
+   * Push expr to this Addition
+   * Convenient alias for expr.accept(this);
+   * @param expr 
+   */
+  public push(expr: Expr) {
     expr.accept(this);
   }
 
@@ -52,7 +62,7 @@ export class Add implements Visitor {
   visitSom(expr: Som): void {
     // Flatten Som
     expr.args.forEach(arg => {
-      this.add(arg);
+      this.push(arg);
     });
   }
 
