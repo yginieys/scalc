@@ -1,4 +1,4 @@
-import { Const, Expr, Prod, Var } from "expr";
+import { Const, Expr, Prod, Som, Var } from "expr";
 import { Normalize } from "visitors/Normalize";
 import { Print } from "visitors/Print";
 
@@ -23,6 +23,14 @@ describe('testing Normalize visitor', () => {
     const result = normalize.result;
     
     assertExprIs(result, '2*x^3');
+  })
+
+  test('Normalize Prod 2*2', () => {
+    const expr = new Prod([new Const(2), new Const(2)]);
+    expr.accept(normalize);
+    const result = normalize.result;
+    
+    assertExprIs(result, '4');
   })
 
   test('Normalize Prod 2x*2', () => {

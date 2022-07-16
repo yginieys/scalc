@@ -47,7 +47,9 @@ class NormalizeProd implements Visitor {
     this.otherExpr.push(expr);
   }
   visitProd(expr: Prod): void {
-    this.otherExpr.push(expr);
+    expr.args.forEach(arg => {
+      arg.accept(this);
+    });
   }
 
   getExpr(): Expr {

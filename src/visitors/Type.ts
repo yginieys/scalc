@@ -6,45 +6,45 @@ import { Visitor } from "./Visitor";
  */
 export class Type implements Visitor {
 
-  private _isConst = false;
-  private _isVar = false;
-  private _isSom = false;
-  private _isProd = false;
+  private _const: Const|null = null;
+  private _var: Var|null = null;
+  private _som: Som|null = null;;
+  private _prod: Prod|null = null;;
 
-  public get isConst() {
-    return this._isConst;
+  public get const(): Const|null {
+    return this._const;
   }
 
-  public get isVar() {
-    return this._isVar;
+  public get var(): Var|null {
+    return this._var;
   }
 
-  public get isSom() {
-    return this._isSom;
+  public get som(): Som|null {
+    return this._som;
   }
 
-  public get isProd() {
-    return this._isProd;
+  public get prod(): Prod|null {
+    return this._prod;
   }
 
   visitConst(expr: Const): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._isConst = this._isProd = this._isSom = this._isVar = false;
-    this._isConst = true;
+    this._const = this._prod = this._som = this._var = null;
+    this._const = expr;
   }
 
   visitVar(expr: Var): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._isConst = this._isProd = this._isSom = this._isVar = false;
-    this._isVar = true;
+    this._const = this._prod = this._som = this._var = null;
+    this._var = expr;
   }
 
   visitSom(expr: Som): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._isConst = this._isProd = this._isSom = this._isVar = false;
-    this._isSom = true;
+    this._const = this._prod = this._som = this._var = null;
+    this._som = expr;
   }
 
   visitProd(expr: Prod): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._isConst = this._isProd = this._isSom = this._isVar = false;
-    this._isProd = true;
+    this._const = this._prod = this._som = this._var = null;
+    this._prod = expr;
   }
 
 }

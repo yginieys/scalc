@@ -16,11 +16,11 @@ export class Substitute extends Copy {
     if(expr.name === this.varToReplace) {
       const type = new Type();
       this.replacement.accept(type);
-      if(type.isVar) {
+      if(type.var) {
         this._result = new Var(
-          (this.replacement as Var).name,
-          (this.replacement as Var).coefficient * expr.coefficient,
-          (this.replacement as Var).exposant * expr.exposant,
+          type.var.name,
+          type.var.coefficient * expr.coefficient,
+          type.var.exposant * expr.exposant,
         );
       } else {
         const args: Expr[] = [];
