@@ -1,4 +1,4 @@
-import { Var, Som, Prod, Expr } from "expr";
+import { Term, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 /**
@@ -13,11 +13,11 @@ import { Visitor } from "./Visitor";
  */
 export class Type implements Visitor {
 
-  private _var: Var|null = null;
+  private _var: Term|null = null;
   private _som: Som|null = null;;
   private _prod: Prod|null = null;;
 
-  public get var(): Var|null {
+  public get var(): Term|null {
     return this._var;
   }
 
@@ -36,7 +36,7 @@ export class Type implements Visitor {
     expr.accept(this);
   }
 
-  visitVar(expr: Var): void { // eslint-disable-line @typescript-eslint/no-unused-vars
+  visitVar(expr: Term): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     this._prod = this._som = this._var = null;
     this._var = expr;
   }

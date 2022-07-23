@@ -1,4 +1,4 @@
-import { Expr, Prod, Som, Var } from "expr";
+import { Expr, Prod, Som, Term } from "expr";
 import { Copy } from "./Copy";
 import { Visitor } from "./Visitor";
 
@@ -32,7 +32,7 @@ export class Flatten extends Copy {
 abstract class FlattenBase implements Visitor {
   public args: Expr[] = [];
 
-  visitVar(expr: Var): void {
+  visitVar(expr: Term): void {
     this.args.push(expr);
   }
   visitSom(expr: Som): void {

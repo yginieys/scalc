@@ -1,4 +1,4 @@
-import { Expr, Prod, Som, Var } from "expr";
+import { Expr, Prod, Som, Term } from "expr";
 import { Normalize } from "visitors/Normalize";
 import { Print } from "visitors/Print";
 
@@ -10,15 +10,15 @@ describe('testing Normalize visitor', () => {
   });
 
   test('Normalize Const 1', () => {
-    const expr = Var.const(1);
+    const expr = Term.const(1);
     expr.accept(normalize);
     const result = normalize.result;
     
     assertExprIs(result, '1');
   })
 
-  test('Normalize Var 2x^3', () => {
-    const expr = new Var(2, 'x', 3);
+  test('Normalize Term 2x^3', () => {
+    const expr = new Term(2, 'x', 3);
     expr.accept(normalize);
     const result = normalize.result;
     
@@ -26,7 +26,7 @@ describe('testing Normalize visitor', () => {
   })
 
   test('Normalize Prod 2*2', () => {
-    const expr = new Prod([Var.const(2), Var.const(2)]);
+    const expr = new Prod([Term.const(2), Term.const(2)]);
     expr.accept(normalize);
     const result = normalize.result;
     
@@ -34,7 +34,7 @@ describe('testing Normalize visitor', () => {
   })
 
   test('Normalize Prod 2x*2', () => {
-    const expr = new Prod([Var.nVar(2, 'x'), Var.const(2)]);
+    const expr = new Prod([Term.nVar(2, 'x'), Term.const(2)]);
     expr.accept(normalize);
     const result = normalize.result;
     
@@ -42,7 +42,7 @@ describe('testing Normalize visitor', () => {
   })
 
   test('Normalize Prod x*2x', () => {
-    const expr = new Prod([Var.var('x'), Var.nVar(2, 'x')]);
+    const expr = new Prod([Term.var('x'), Term.nVar(2, 'x')]);
     expr.accept(normalize);
     const result = normalize.result;
     
@@ -50,7 +50,7 @@ describe('testing Normalize visitor', () => {
   })
 
   test('Normalize Prod 2x*2x^3', () => {
-    const expr = new Prod([Var.nVar(2, 'x'), new Var(2, 'x', 3)]);
+    const expr = new Prod([Term.nVar(2, 'x'), new Term(2, 'x', 3)]);
     expr.accept(normalize);
     const result = normalize.result;
     

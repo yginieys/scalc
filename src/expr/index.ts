@@ -1,4 +1,4 @@
 export * from "./Expr";
 export * from "./Som";
-export * from "./Var";
+export * from "./Term";
 export * from "./Prod";

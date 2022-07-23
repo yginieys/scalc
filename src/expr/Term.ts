@@ -4,7 +4,7 @@ import { Expr } from "./Expr";
 /**
  * Représente une variable litérale
  */
-export class Var extends Expr {
+export class Term extends Expr {
 
   constructor(
     public readonly coefficient: number,
@@ -15,31 +15,31 @@ export class Var extends Expr {
   }
 
   public static const(value: number) {
-    return new Var(value, 'CONST', 0);
+    return new Term(value, 'CONST', 0);
   }
 
   public static var(name: string) {
-    return new Var(1, name, 1);
+    return new Term(1, name, 1);
   }
 
   public static nVar(n: number, name: string) {
-    return new Var(n, name, 1);
+    return new Term(n, name, 1);
   }
 
-  public static varN(name: string, exp: number) {
-    return new Var(1, name, exp);
+  public static varN(name: string, n: number) {
+    return new Term(1, name, n);
   }
 
   public static var2(name: string) {
-    return new Var(1, name, 2);
+    return new Term(1, name, 2);
   }
 
   public static var3(name: string) {
-    return new Var(1, name, 3);
+    return new Term(1, name, 3);
   }
 
-  //    new Var(name, coef=1, exp=1)       new Var('CONST', => Var.const(        
-  // => new Var(coef=1, name, exp=1)
+  //    new Term(name, coef=1, exp=1)       new Term('CONST', => Term.const(        
+  // => new Term(coef=1, name, exp=1)
 
   accept(visitor: Visitor): void {
     visitor.visitVar(this);

@@ -1,4 +1,4 @@
-import { Var,  Expr, Prod } from "expr";
+import { Term,  Expr, Prod } from "expr";
 import { isInt } from "Utils";
 import { Copy } from "./Copy";
 import { Type } from "./Type";
@@ -12,12 +12,12 @@ export class Substitute extends Copy {
     super();
   }
 
-  visitVar(expr: Var): void {
+  visitVar(expr: Term): void {
     if(expr.name === this.varToReplace) {
       const type = new Type();
       this.replacement.accept(type);
       if(type.var) {
-        this._result = new Var(
+        this._result = new Term(
           type.var.coefficient * expr.coefficient,
           type.var.name,
           type.var.exposant * expr.exposant
@@ -25,7 +25,7 @@ export class Substitute extends Copy {
       } else {
         const args: Expr[] = [];
         if(expr.coefficient != 1) {
-          args.push(Var.const(expr.coefficient));
+          args.push(Term.const(expr.coefficient));
         }
         if(!isInt(expr.exposant) || expr.exposant < 0) {
           throw new Error("Not yet supported exposant "+expr.exposant);
@@ -41,7 +41,7 @@ export class Substitute extends Copy {
           args.push(copy.result);
         }
         if(args.length == 0) {
-          this._result = Var.const(1);
+          this._result = Term.const(1);
         } else if(args.length == 1) {
           this._result = args[0];
         } else {
@@ -50,7 +50,7 @@ export class Substitute extends Copy {
       }
       
     } else {
-      this._result = new Var(expr.coefficient, expr.name, expr.exposant);
+      this._result = new Term(expr.coefficient, expr.name, expr.exposant);
     }
   }
 }

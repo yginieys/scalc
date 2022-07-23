@@ -1,4 +1,4 @@
-import { Var, Som, Prod, Expr } from "expr";
+import { Term, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 export class Add implements Visitor {
@@ -16,7 +16,7 @@ export class Add implements Visitor {
     let varNames = Object.keys(this.varByName);
     varNames = varNames.sort();
     varNames.forEach(varName => {
-      args.push(new Var( 
+      args.push(new Term( 
         this.varByName[varName].coefficient,
         this.varByName[varName].name,
         this.varByName[varName].exposant
@@ -37,7 +37,7 @@ export class Add implements Visitor {
     expr.accept(this);
   }
 
-  visitVar(expr: Var): void {
+  visitVar(expr: Term): void {
     // Add var by name^exp
     const key = expr.exposant != 0 ? expr.name+(1/expr.exposant) : 'zz_CONST';     // For ordering
     let varData = this.varByName[key];

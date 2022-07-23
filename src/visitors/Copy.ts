@@ -1,4 +1,4 @@
-import { Var, Som, Prod, Expr } from "expr";
+import { Term, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 export class Copy implements Visitor {
@@ -9,7 +9,7 @@ export class Copy implements Visitor {
     return this._result;
   }
 
-  visitVar(expr: Var): void {
+  visitVar(expr: Term): void {
     this._result = this.processVar(expr.name, expr.coefficient, expr.exposant);
   }
 
@@ -39,7 +39,7 @@ export class Copy implements Visitor {
 
   // @TODO Change variable order to coefficient, varName, exposant
   protected processVar(varName: string, coefficient: number, exposant: number): Expr {
-    return new Var(coefficient, varName, exposant);
+    return new Term(coefficient, varName, exposant);
   }
 
   protected processSom(args: Expr[]): Expr {

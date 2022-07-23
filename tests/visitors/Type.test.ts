@@ -1,4 +1,4 @@
-import { Prod, Som, Var } from "expr";
+import { Prod, Som, Term } from "expr";
 import { Type } from "visitors/Type";
 
 describe('testing Type visitor', () => {
@@ -8,8 +8,8 @@ describe('testing Type visitor', () => {
     type = new Type();
   });
 
-  test('Type Var', () => {
-    const expr = Var.var('x');
+  test('Type Term', () => {
+    const expr = Term.var('x');
     expr.accept(type);
     expect(type.var).not.toBeNull();
     expect(type.som).toBeNull();
