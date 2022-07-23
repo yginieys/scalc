@@ -5,7 +5,7 @@ import { Term, Som, Prod } from "../expr";
  * Represents a behavior/processing that applies to an Expression.
  */
 export interface Visitor {
-  visitVar(expr: Term): void;
+  visitTerm(expr: Term): void;
   visitSom(expr: Som): void;
   visitProd(expr: Prod): void;
 }

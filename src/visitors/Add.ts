@@ -37,7 +37,7 @@ export class Add implements Visitor {
     expr.accept(this);
   }
 
-  visitVar(expr: Term): void {
+  visitTerm(expr: Term): void {
     // Add var by name^exp
     const key = expr.exposant != 0 ? expr.name+(1/expr.exposant) : 'zz_CONST';     // For ordering
     let varData = this.varByName[key];

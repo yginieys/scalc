@@ -36,7 +36,7 @@ export class Type implements Visitor {
     expr.accept(this);
   }
 
-  visitVar(expr: Term): void { // eslint-disable-line @typescript-eslint/no-unused-vars
+  visitTerm(expr: Term): void { // eslint-disable-line @typescript-eslint/no-unused-vars
     this._prod = this._som = this._var = null;
     this._var = expr;
   }

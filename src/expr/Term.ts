@@ -2,7 +2,7 @@ import { Visitor } from "visitors/Visitor";
 import { Expr } from "./Expr";
 
 /**
- * Représente une variable litérale
+ * Représente un terme d'une expression algebrique
  */
 export class Term extends Expr {
 
@@ -42,7 +42,7 @@ export class Term extends Expr {
   // => new Term(coef=1, name, exp=1)
 
   accept(visitor: Visitor): void {
-    visitor.visitVar(this);
+    visitor.visitTerm(this);
   }
 
 }

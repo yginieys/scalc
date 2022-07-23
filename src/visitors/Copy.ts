@@ -9,8 +9,8 @@ export class Copy implements Visitor {
     return this._result;
   }
 
-  visitVar(expr: Term): void {
-    this._result = this.processVar(expr.name, expr.coefficient, expr.exposant);
+  visitTerm(expr: Term): void {
+    this._result = this.processTerm(expr.coefficient, expr.name, expr.exposant);
   }
 
   visitSom(expr: Som): void {
@@ -38,7 +38,7 @@ export class Copy implements Visitor {
   }
 
   // @TODO Change variable order to coefficient, varName, exposant
-  protected processVar(varName: string, coefficient: number, exposant: number): Expr {
+  protected processTerm(coefficient: number, varName: string, exposant: number): Expr {
     return new Term(coefficient, varName, exposant);
   }
 

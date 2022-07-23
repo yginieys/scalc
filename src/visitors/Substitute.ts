@@ -12,7 +12,7 @@ export class Substitute extends Copy {
     super();
   }
 
-  visitVar(expr: Term): void {
+  visitTerm(expr: Term): void {
     if(expr.name === this.varToReplace) {
       const type = new Type();
       this.replacement.accept(type);

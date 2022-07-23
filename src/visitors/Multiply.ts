@@ -31,7 +31,7 @@ export class Multiply implements Visitor {
    }
 
   /**
-   * Push expr to this Addition
+   * Push expr to this Multiplication
    * Convenient alias for expr.accept(this);
    * @param expr 
    */
@@ -39,7 +39,7 @@ export class Multiply implements Visitor {
     expr.accept(this);
   }
 
-  visitVar(expr: Term): void {
+  visitTerm(expr: Term): void {
     // Regroup var by name
     const key = expr.name;
     let varData = this.varByName[key];
@@ -48,7 +48,7 @@ export class Multiply implements Visitor {
       this.varByName[key] = varData;
     }
     this.constValue *= expr.coefficient;
-    varData.exposant += expr.exposant;  
+    varData.exposant += expr.exposant;
   }
 
   visitSom(expr: Som): void {

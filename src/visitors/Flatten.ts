@@ -32,7 +32,7 @@ export class Flatten extends Copy {
 abstract class FlattenBase implements Visitor {
   public args: Expr[] = [];
 
-  visitVar(expr: Term): void {
+  visitTerm(expr: Term): void {
     this.args.push(expr);
   }
   visitSom(expr: Som): void {

@@ -11,7 +11,7 @@ export class Print implements Visitor {
     return this._result;
   }
 
-  visitVar(expr: Term): void {
+  visitTerm(expr: Term): void {
     if(expr.exposant != 0) {
       if(expr.coefficient != 1 && expr.coefficient != -1) {
         this._result += expr.coefficient;

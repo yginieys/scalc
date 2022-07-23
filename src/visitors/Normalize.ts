@@ -4,7 +4,7 @@ import { Visitor } from "./Visitor";
 
 export class Normalize extends Copy {
 
-  protected processVar(varName: string, coefficient: number, exposant: number): Expr {
+  protected processTerm(coefficient: number, varName: string, exposant: number): Expr {
     const newVar = new Term(1, varName, exposant);
     if(coefficient != 1) {
       // Get coefficient out of var
@@ -29,7 +29,7 @@ class NormalizeProd implements Visitor {
   public varByName:{[key:string]: { coefficient: number, exposant: number }} = {};
   public otherExpr: Expr[] = [];
 
-  visitVar(expr: Term): void {
+  visitTerm(expr: Term): void {
     // Regroup var by name
     let varData = this.varByName[expr.name];
     if(!varData) {
