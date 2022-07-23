@@ -1,4 +1,4 @@
-import { Const, Prod, Som, Var } from "expr";
+import { Prod, Som, Var } from "expr";
 import { Print } from "visitors/Print";
 
 describe('testing Print visitor', () => {
@@ -9,15 +9,27 @@ describe('testing Print visitor', () => {
   });
 
   test('Print Const 2', () => {
-    const expr = new Const(2);
+    const expr = new Var('CONST', 2, 0);
     expr.accept(print);
     expect(print.result).toBe("2");
   });
 
   test('Print Const -2', () => {
-    const expr = new Const(-2);
+    const expr = new Var('CONST', -2, 0);
     expr.accept(print);
     expect(print.result).toBe("-2");
+  });
+
+  test('Print Const 0', () => {
+    const expr = new Var('CONST', 0, 0);
+    expr.accept(print);
+    expect(print.result).toBe("0");
+  });
+
+  test('Print Const 1', () => {
+    const expr = new Var('CONST', 1, 0);
+    expr.accept(print);
+    expect(print.result).toBe("1");
   });
 
   test('Print Var x', () => {
@@ -46,8 +58,8 @@ describe('testing Print visitor', () => {
 
   test('Print Som 2+2', () => {
     const expr = new Som([
-      new Const(2),
-      new Const(2)
+      new Var('CONST', 2, 0),
+      new Var('CONST', 2, 0)
     ]);
     expr.accept(print);
     expect(print.result).toBe("2+2");
@@ -55,8 +67,8 @@ describe('testing Print visitor', () => {
 
   test('Print Som 3-2', () => {
     const expr = new Som([
-      new Const(3),
-      new Const(-2)
+      new Var('CONST', 3, 0),
+      new Var('CONST', -2, 0),
     ]);
     expr.accept(print);
     expect(print.result).toBe("3-2");
@@ -65,7 +77,7 @@ describe('testing Print visitor', () => {
   test('Print Som x+2', () => {
     const expr = new Som([
       new Var('x'),
-      new Const(2)
+      new Var('CONST', 2, 0),
     ]);
     expr.accept(print);
     expect(print.result).toBe("x+2");
@@ -73,8 +85,8 @@ describe('testing Print visitor', () => {
 
   test('Print Prod 2*2', () => {
     const expr = new Prod([
-      new Const(2),
-      new Const(2)
+      new Var('CONST', 2, 0),
+      new Var('CONST', 2, 0)
     ]);
     expr.accept(print);
     expect(print.result).toBe("2*2");
@@ -82,7 +94,7 @@ describe('testing Print visitor', () => {
 
   test('Print Prod -2*x', () => {
     const expr = new Prod([
-      new Const(-2),
+      new Var('CONST', -2, 0),
       new Var('x')
     ]);
     expr.accept(print);
@@ -92,11 +104,11 @@ describe('testing Print visitor', () => {
   test('Print Prod (3*y)+(-2*x)', () => {
     const expr = new Som([
       new Prod([
-        new Const(3),
+        new Var('CONST', 3, 0),
         new Var('y')
       ]),
       new Prod([
-        new Const(-2),
+        new Var('CONST', -2, 0),
         new Var('x')
       ])
     ]);
@@ -106,10 +118,10 @@ describe('testing Print visitor', () => {
 
   test('Print Prod -2*(x+1)', () => {
     const expr = new Prod([
-      new Const(-2),
+      new Var('CONST', -2, 0),
       new Som([
         new Var('x'),
-        new Const(1),
+        new Var('CONST', 1, 0),
       ])
     ]);
     expr.accept(print);
@@ -120,9 +132,9 @@ describe('testing Print visitor', () => {
     const expr = new Prod([
       new Som([
         new Var('x'),
-        new Const(1),
+        new Var('CONST', 1, 0),
       ]),
-      new Const(-2)
+      new Var('CONST', -2, 0),
     ]);
     expr.accept(print);
     expect(print.result).toBe("(x+1)*-2");
@@ -132,11 +144,11 @@ describe('testing Print visitor', () => {
     const expr = new Prod([
       new Som([
         new Var('x'),
-        new Const(1),
+        new Var('CONST', 1, 0),
       ]),
       new Som([
         new Var('x'),
-        new Const(-1),
+        new Var('CONST', -1, 0),
       ])
     ]);
     expr.accept(print);
@@ -147,11 +159,11 @@ describe('testing Print visitor', () => {
     const expr = new Som([
       new Som([
         new Var('x'),
-        new Const(1),
+        new Var('CONST', 1, 0),
       ]),
       new Som([
         new Var('x'),
-        new Const(-1),
+        new Var('CONST', -1, 0),
       ])
     ]);
     expr.accept(print);
@@ -171,7 +183,7 @@ describe('testing Print visitor', () => {
   });
 
   test('Print Som 1', () => {
-    const expr = new Som([ new Const(1) ]);
+    const expr = new Som([ new Var('CONST', 1, 0), ]);
     expr.accept(print);
     expect(print.result).toBe("1");
   });
@@ -183,7 +195,7 @@ describe('testing Print visitor', () => {
   });
 
   test('Print Prod 1', () => {
-    const expr = new Prod([ new Const(1) ]);
+    const expr = new Prod([ new Var('CONST', 1, 0), ]);
     expr.accept(print);
     expect(print.result).toBe("1");
   });

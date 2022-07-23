@@ -1,4 +1,4 @@
-import { Const, Var, Som, Prod, Expr } from "expr";
+import { Var, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 /**
@@ -13,14 +13,9 @@ import { Visitor } from "./Visitor";
  */
 export class Type implements Visitor {
 
-  private _const: Const|null = null;
   private _var: Var|null = null;
   private _som: Som|null = null;;
   private _prod: Prod|null = null;;
-
-  public get const(): Const|null {
-    return this._const;
-  }
 
   public get var(): Var|null {
     return this._var;
@@ -41,23 +36,18 @@ export class Type implements Visitor {
     expr.accept(this);
   }
 
-  visitConst(expr: Const): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._const = this._prod = this._som = this._var = null;
-    this._const = expr;
-  }
-
   visitVar(expr: Var): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._const = this._prod = this._som = this._var = null;
+    this._prod = this._som = this._var = null;
     this._var = expr;
   }
 
   visitSom(expr: Som): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._const = this._prod = this._som = this._var = null;
+    this._prod = this._som = this._var = null;
     this._som = expr;
   }
 
   visitProd(expr: Prod): void { // eslint-disable-line @typescript-eslint/no-unused-vars
-    this._const = this._prod = this._som = this._var = null;
+    this._prod = this._som = this._var = null;
     this._prod = expr;
   }
 

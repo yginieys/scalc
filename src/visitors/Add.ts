@@ -1,9 +1,7 @@
-import { Const, Var, Som, Prod, Expr } from "expr";
-import { Print } from "./Print";
+import { Var, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 export class Add implements Visitor {
-  private constValue: number = 0;
   private varByName: {[key:string]: { name: string, coefficient: number, exposant: number }} = {};
   private otherExprs: Expr [] = [];
 
@@ -24,10 +22,6 @@ export class Add implements Visitor {
         this.varByName[varName].exposant
       ));
     });
-    // Process const
-    if(this.constValue != 0) {
-      args.push(new Const(this.constValue));
-    }
     // Process Others exprs
     args.push(...this.otherExprs);
 
@@ -43,14 +37,9 @@ export class Add implements Visitor {
     expr.accept(this);
   }
 
-  visitConst(expr: Const): void {
-    // Add constants in a single value
-    this.constValue += expr.val;
-  }
-
   visitVar(expr: Var): void {
     // Add var by name^exp
-    const key = expr.name+(1/expr.exposant);
+    const key = expr.exposant != 0 ? expr.name+(1/expr.exposant) : 'zz_CONST';     // For ordering
     let varData = this.varByName[key];
     if(!varData) {
       varData = { name: expr.name, coefficient: 0, exposant: expr.exposant }

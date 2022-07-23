@@ -10,7 +10,8 @@
     "build": "npx tsc",
     "run": "npx ts-node src/main.ts",
     "lint": "eslint . --fix",
-    "test": "jest"
+    "test": "jest",
+    "test2": "jest tests/visitors/Multiply.test.ts"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-import { Const, Prod, Som, Var } from "expr";
+import { Prod, Som, Var } from "expr";
 import { Copy } from "visitors/Copy";
 
 describe('testing Copy visitor', () => {
@@ -9,7 +9,7 @@ describe('testing Copy visitor', () => {
   });
 
   test('Copy Const 1', () => {
-    const expr = new Const(1);
+    const expr = new Var('CONST', 1, 0);
     expr.accept(copy);
     const expr2 = copy.result;
 
@@ -38,7 +38,7 @@ describe('testing Copy visitor', () => {
   test('Copy Som x+1', () => {
     const expr = new Som([
       new Var('x'),
-      new Const(1)
+      new Var('CONST', 1, 0)
     ]);
     expr.accept(copy);
     const expr2 = copy.result;
@@ -50,7 +50,7 @@ describe('testing Copy visitor', () => {
   test('Copy Prod x*2', () => {
     const expr = new Prod([
       new Var('x'),
-      new Const(2)
+      new Var('CONST', 2, 0)
     ]);
     expr.accept(copy);
     const expr2 = copy.result;
@@ -63,16 +63,16 @@ describe('testing Copy visitor', () => {
     const expr = new Prod([
       new Som([
         new Var('z'),
-        new Const(3)
+        new Var('CONST', 3, 0)
       ]),
       new Prod([
         new Som([
           new Var('y'),
-          new Const(2)
+          new Var('CONST', 2, 0)
         ]),
         new Som([
           new Var('x'),
-          new Const(1)
+          new Var('CONST', 1, 0)
         ])
       ])
     ]);

@@ -1,4 +1,4 @@
-import { Const, Expr, Prod, Som, Var } from "expr";
+import { Expr, Prod, Som, Var } from "expr";
 import { Multiply } from "visitors/Multiply";
 import { Print } from "visitors/Print";
 
@@ -10,7 +10,7 @@ describe('testing Multiply visitor', () => {
   });
 
   test('Multiply 1', () => {
-    const one = new Const(1);
+    const one = new Var('CONST', 1, 0);
     mult.push(one);
     const result = mult.eval();
     
@@ -18,8 +18,8 @@ describe('testing Multiply visitor', () => {
   })
 
   test('Multiply 2 * 3', () => {
-    mult.push(new Const(2));
-    mult.push(new Const(3));
+    mult.push(new Var('CONST', 2, 0));
+    mult.push(new Var('CONST', 3, 0));
     const result = mult.eval();
     
     assertExprIs(result, '6');
@@ -27,7 +27,7 @@ describe('testing Multiply visitor', () => {
 
   test('Multiply x * 3', () => {
     mult.push(new Var('x'));
-    mult.push(new Const(3));
+    mult.push(new Var('CONST', 3, 0));
     const result = mult.eval();
     
     assertExprIs(result, '3*x');
@@ -35,7 +35,7 @@ describe('testing Multiply visitor', () => {
 
   test('Multiply x * 3 * 2x', () => {
     mult.push(new Var('x'));
-    mult.push(new Const(3));
+    mult.push(new Var('CONST', 3, 0));
     mult.push(new Var('x', 2));
     const result = mult.eval();
     
@@ -45,7 +45,7 @@ describe('testing Multiply visitor', () => {
   test('Multiply x * (3+2x)', () => {
     mult.push(new Var('x'));
     mult.push(new Som([
-      new Const(3),
+      new Var('CONST', 3, 0),
       new Var('x', 2)
     ]));
     const result = mult.eval();

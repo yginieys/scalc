@@ -1,4 +1,4 @@
-import { Var,  Expr, Const, Prod } from "expr";
+import { Var,  Expr, Prod } from "expr";
 import { isInt } from "Utils";
 import { Copy } from "./Copy";
 import { Type } from "./Type";
@@ -25,7 +25,7 @@ export class Substitute extends Copy {
       } else {
         const args: Expr[] = [];
         if(expr.coefficient != 1) {
-          args.push(new Const(expr.coefficient));
+          args.push(new Var('CONST', expr.coefficient, 0));
         }
         if(!isInt(expr.exposant) || expr.exposant < 0) {
           throw new Error("Not yet supported exposant "+expr.exposant);
@@ -41,7 +41,7 @@ export class Substitute extends Copy {
           args.push(copy.result);
         }
         if(args.length == 0) {
-          this._result = new Const(1);    
+          this._result = new Var('CONST', 1, 0);
         } else if(args.length == 1) {
           this._result = args[0];
         } else {

@@ -1,4 +1,4 @@
-import { Const, Var, Som, Prod, Expr } from "expr";
+import { Var, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 export class Copy implements Visitor {
@@ -7,10 +7,6 @@ export class Copy implements Visitor {
 
   public get result(): Expr|null {
     return this._result;
-  }
-
-  visitConst(expr: Const): void {
-    this._result = this.processConst(expr.val);
   }
 
   visitVar(expr: Var): void {
@@ -39,10 +35,6 @@ export class Copy implements Visitor {
       argsCopy.push(this.result);
     })
     this._result = this.processProd(argsCopy);
-  }
-
-  protected processConst(constVal: number): Expr {
-    return new Const(constVal);
   }
 
   protected processVar(varName: string, coefficient: number, exposant: number): Expr {

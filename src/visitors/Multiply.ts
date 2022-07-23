@@ -1,4 +1,4 @@
-import { Const, Var, Som, Prod, Expr } from "expr";
+import { Var, Som, Prod, Expr } from "expr";
 import { Visitor } from "./Visitor";
 
 export class Multiply implements Visitor {
@@ -14,13 +14,15 @@ export class Multiply implements Visitor {
     const args: Expr[] = [];
     // Process Const
     if(this.constValue != 1) {
-      args.push(new Const(this.constValue));
+      args.push(new Var('CONST', this.constValue, 0));
     }
     // Process Vars
     let varNames = Object.keys(this.varByName);
     varNames = varNames.sort();
     varNames.forEach(varName => {
-      args.push(new Var(varName, this.varByName[varName].coefficient, this.varByName[varName].exposant));
+      if(this.varByName[varName].exposant != 0 || this.varByName[varName].coefficient != 1) {
+        args.push(new Var(varName, this.varByName[varName].coefficient, this.varByName[varName].exposant));
+      }
     });
     // Process Others exprs
     args.push(...this.otherExpr);
@@ -35,10 +37,6 @@ export class Multiply implements Visitor {
    */
   public push(expr: Expr) {
     expr.accept(this);
-  }
-
-  visitConst(expr: Const): void {
-    this.constValue *= expr.val;
   }
 
   visitVar(expr: Var): void {
