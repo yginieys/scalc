@@ -14,14 +14,14 @@ export class Multiply implements Visitor {
     const args: Expr[] = [];
     // Process Const
     if(this.constValue != 1) {
-      args.push(new Var('CONST', this.constValue, 0));
+      args.push(Var.const(this.constValue));
     }
     // Process Vars
     let varNames = Object.keys(this.varByName);
     varNames = varNames.sort();
     varNames.forEach(varName => {
       if(this.varByName[varName].exposant != 0 || this.varByName[varName].coefficient != 1) {
-        args.push(new Var(varName, this.varByName[varName].coefficient, this.varByName[varName].exposant));
+        args.push(new Var(this.varByName[varName].coefficient, varName, this.varByName[varName].exposant));
       }
     });
     // Process Others exprs

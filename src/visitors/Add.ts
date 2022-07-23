@@ -16,9 +16,9 @@ export class Add implements Visitor {
     let varNames = Object.keys(this.varByName);
     varNames = varNames.sort();
     varNames.forEach(varName => {
-      args.push(new Var(
-        this.varByName[varName].name, 
-        this.varByName[varName].coefficient, 
+      args.push(new Var( 
+        this.varByName[varName].coefficient,
+        this.varByName[varName].name,
         this.varByName[varName].exposant
       ));
     });

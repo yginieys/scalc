@@ -37,8 +37,9 @@ export class Copy implements Visitor {
     this._result = this.processProd(argsCopy);
   }
 
+  // @TODO Change variable order to coefficient, varName, exposant
   protected processVar(varName: string, coefficient: number, exposant: number): Expr {
-    return new Var(varName, coefficient, exposant);
+    return new Var(coefficient, varName, exposant);
   }
 
   protected processSom(args: Expr[]): Expr {

@@ -9,7 +9,7 @@ describe('testing Copy visitor', () => {
   });
 
   test('Copy Const 1', () => {
-    const expr = new Var('CONST', 1, 0);
+    const expr = Var.const(1);
     expr.accept(copy);
     const expr2 = copy.result;
 
@@ -18,7 +18,7 @@ describe('testing Copy visitor', () => {
   })
 
   test('Copy Var x', () => {
-    const expr = new Var('x');
+    const expr = Var.var('x');
     expr.accept(copy);
     const expr2 = copy.result;
 
@@ -27,7 +27,7 @@ describe('testing Copy visitor', () => {
   })
 
   test('Copy Var -x^2', () => {
-    const expr = new Var('x', -1, 2);
+    const expr = new Var(-1, 'x', 2);
     expr.accept(copy);
     const expr2 = copy.result;
 
@@ -37,8 +37,8 @@ describe('testing Copy visitor', () => {
 
   test('Copy Som x+1', () => {
     const expr = new Som([
-      new Var('x'),
-      new Var('CONST', 1, 0)
+      Var.var('x'),
+      Var.const(1)
     ]);
     expr.accept(copy);
     const expr2 = copy.result;
@@ -49,8 +49,8 @@ describe('testing Copy visitor', () => {
 
   test('Copy Prod x*2', () => {
     const expr = new Prod([
-      new Var('x'),
-      new Var('CONST', 2, 0)
+      Var.var('x'),
+      Var.const(2)
     ]);
     expr.accept(copy);
     const expr2 = copy.result;
@@ -62,17 +62,17 @@ describe('testing Copy visitor', () => {
   test('Copy (z+3)*((y+2)*(x+1))', () => {
     const expr = new Prod([
       new Som([
-        new Var('z'),
-        new Var('CONST', 3, 0)
+        Var.var('z'),
+        Var.const(3)
       ]),
       new Prod([
         new Som([
-          new Var('y'),
-          new Var('CONST', 2, 0)
+          Var.var('y'),
+          Var.const(2)
         ]),
         new Som([
-          new Var('x'),
-          new Var('CONST', 1, 0)
+          Var.var('x'),
+          Var.const(1)
         ])
       ])
     ]);

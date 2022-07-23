@@ -18,14 +18,14 @@ export class Substitute extends Copy {
       this.replacement.accept(type);
       if(type.var) {
         this._result = new Var(
-          type.var.name,
           type.var.coefficient * expr.coefficient,
-          type.var.exposant * expr.exposant,
+          type.var.name,
+          type.var.exposant * expr.exposant
         );
       } else {
         const args: Expr[] = [];
         if(expr.coefficient != 1) {
-          args.push(new Var('CONST', expr.coefficient, 0));
+          args.push(Var.const(expr.coefficient));
         }
         if(!isInt(expr.exposant) || expr.exposant < 0) {
           throw new Error("Not yet supported exposant "+expr.exposant);
@@ -41,7 +41,7 @@ export class Substitute extends Copy {
           args.push(copy.result);
         }
         if(args.length == 0) {
-          this._result = new Var('CONST', 1, 0);
+          this._result = Var.const(1);
         } else if(args.length == 1) {
           this._result = args[0];
         } else {
@@ -50,7 +50,7 @@ export class Substitute extends Copy {
       }
       
     } else {
-      this._result = new Var(expr.name, expr.coefficient, expr.exposant);
+      this._result = new Var(expr.coefficient, expr.name, expr.exposant);
     }
   }
 }

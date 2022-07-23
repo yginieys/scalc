@@ -5,10 +5,10 @@ import { Visitor } from "./Visitor";
 export class Normalize extends Copy {
 
   protected processVar(varName: string, coefficient: number, exposant: number): Expr {
-    const newVar = new Var(varName, 1, exposant);
+    const newVar = new Var(1, varName, exposant);
     if(coefficient != 1) {
       // Get coefficient out of var
-      return new Prod([new Var('CONST', coefficient, 0), newVar]);
+      return new Prod([Var.const(coefficient), newVar]);
     } else {
       return newVar;
     }
@@ -52,14 +52,14 @@ class NormalizeProd implements Visitor {
     const args: Expr[] = [];
     // Process Const
     if(this.constValue != 1) {
-      args.push(new Var('CONST', this.constValue, 0));
+      args.push(Var.const(this.constValue));
     }
     // Process Vars
     let varNames = Object.keys(this.varByName);
     varNames = varNames.sort();
     varNames.forEach(varName => {
       if(this.varByName[varName].exposant != 0 || this.varByName[varName].coefficient != 1) {
-        args.push(new Var(varName, this.varByName[varName].coefficient, this.varByName[varName].exposant));
+        args.push(new Var(this.varByName[varName].coefficient, varName, this.varByName[varName].exposant));
       }
     });
     // Process Others exprs

@@ -10,7 +10,7 @@ describe('testing Flatten visitor', () => {
   });
 
   test('Flatten Const 1', () => {
-    const expr = new Var('CONST', 1, 0);
+    const expr = Var.const(1);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -18,7 +18,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Var 2x^3', () => {
-    const expr = new Var('x', 2, 3);
+    const expr = new Var(2, 'x', 3);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -34,7 +34,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Prod 1', () => {
-    const expr = new Prod([ new Var('CONST', 1, 0) ]);
+    const expr = new Prod([ Var.const(1) ]);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -42,7 +42,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Prod x', () => {
-    const expr = new Prod([ new Var('x') ]);
+    const expr = new Prod([ Var.var('x') ]);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -50,7 +50,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Prod Prod x', () => {
-    const expr = new Prod([new Prod([ new Var('x') ])]);
+    const expr = new Prod([new Prod([ Var.var('x') ])]);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -59,8 +59,8 @@ describe('testing Flatten visitor', () => {
 
   test('Flatten Prod (1*2x)*(2*3x)', () => {
     const expr = new Prod([ 
-      new Prod([ new Var('CONST', 1, 0), new Var('x', 2) ]),
-      new Prod([ new Var('CONST', 2, 0), new Var('x', 3) ]),
+      new Prod([ Var.const(1), Var.nVar(2, 'x') ]),
+      new Prod([ Var.const(2), Var.nVar(3, 'x') ]),
     ]);
     expr.accept(flatten);
     const result = flatten.result;
@@ -70,9 +70,9 @@ describe('testing Flatten visitor', () => {
 
   test('Flatten Prod 1*2x*(2*3x)', () => {
     const expr = new Prod([ 
-      new Var('CONST', 1, 0), 
-      new Var('x', 2),
-      new Prod([ new Var('CONST', 2, 0), new Var('x', 3) ])
+      Var.const(1), 
+      Var.nVar(2, 'x'),
+      new Prod([ Var.const(2), Var.nVar(3, 'x') ])
     ]);
     expr.accept(flatten);
     const result = flatten.result;
@@ -89,7 +89,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Som 1', () => {
-    const expr = new Som([ new Var('CONST', 1, 0) ]);
+    const expr = new Som([ Var.const(1) ]);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -97,7 +97,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Som x', () => {
-    const expr = new Som([ new Var('x') ]);
+    const expr = new Som([ Var.var('x') ]);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -105,7 +105,7 @@ describe('testing Flatten visitor', () => {
   })
 
   test('Flatten Som Som x', () => {
-    const expr = new Som([new Som([ new Var('x') ])]);
+    const expr = new Som([new Som([ Var.var('x') ])]);
     expr.accept(flatten);
     const result = flatten.result;
     
@@ -114,8 +114,8 @@ describe('testing Flatten visitor', () => {
 
   test('Flatten Som (1+2x)+(2+3x)', () => {
     const expr = new Som([ 
-      new Som([ new Var('CONST', 1, 0), new Var('x', 2) ]),
-      new Som([ new Var('CONST', 2, 0), new Var('x', 3) ]),
+      new Som([ Var.const(1), Var.nVar(2, 'x') ]),
+      new Som([ Var.const(2), Var.nVar(3, 'x') ]),
     ]);
     expr.accept(flatten);
     const result = flatten.result;
@@ -125,9 +125,9 @@ describe('testing Flatten visitor', () => {
 
   test('Flatten Som 1+2x+(2+3x)', () => {
     const expr = new Som([ 
-      new Var('CONST', 1, 0), 
-      new Var('x', 2),
-      new Som([ new Var('CONST', 2, 0), new Var('x', 3) ])
+      Var.const(1), 
+      Var.nVar(2, 'x'),
+      new Som([ Var.const(2), Var.nVar(3, 'x') ])
     ]);
     expr.accept(flatten);
     const result = flatten.result;
@@ -137,9 +137,9 @@ describe('testing Flatten visitor', () => {
 
   test('Flatten Prod with Som 1*(2+3x)*2x', () => {
     const expr = new Prod([ 
-      new Var('CONST', 1, 0), 
-      new Som([ new Var('CONST', 2, 0), new Var('x', 3) ]),
-      new Var('x', 2)
+      Var.const(1), 
+      new Som([ Var.const(2), Var.nVar(3, 'x') ]),
+      Var.nVar(2, 'x')
     ]);
     expr.accept(flatten);
     const result = flatten.result;
@@ -149,9 +149,9 @@ describe('testing Flatten visitor', () => {
 
   test('Flatten Som with Prod 1+(2*3x)+2x', () => {
     const expr = new Som([ 
-      new Var('CONST', 1, 0), 
-      new Prod([ new Var('CONST', 2, 0), new Var('x', 3) ]),
-      new Var('x', 2)
+      Var.const(1),
+      new Prod([ Var.const(2), Var.nVar(3, 'x') ]),
+      Var.nVar(2, 'x')
     ]);
     expr.accept(flatten);
     const result = flatten.result;

@@ -6,8 +6,8 @@ import { Substitute } from "visitors/Substitute";
 describe('testing Substitute visitor', () => {
 
   test('Substitute x by y in 1', () => {
-    const subst = new Substitute('x', new Var('y'));
-    const expr = new Var('CONST', 1, 0);
+    const subst = new Substitute('x', Var.var('y'));
+    const expr = Var.const(1);
     expr.accept(subst);
     const result = subst.result;
     
@@ -15,8 +15,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by y in x', () => {
-    const subst = new Substitute('x', new Var('y'));
-    const expr = new Var('y');
+    const subst = new Substitute('x', Var.var('y'));
+    const expr = Var.var('y');
     expr.accept(subst);
     const result = subst.result;
     
@@ -24,8 +24,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by y in 2x^3', () => {
-    const subst = new Substitute('x', new Var('y'));
-    const expr = new Var('x', 2, 3);
+    const subst = new Substitute('x', Var.var('y'));
+    const expr = new Var(2, 'x', 3);
     expr.accept(subst);
     const result = subst.result;
     
@@ -33,8 +33,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by 4y^2 in 2x^3', () => {
-    const subst = new Substitute('x', new Var('y', 4, 2));
-    const expr = new Var('x', 2, 3);
+    const subst = new Substitute('x', new Var(4, 'y', 2));
+    const expr = new Var(2, 'x', 3);
     expr.accept(subst);
     const result = subst.result;
     
@@ -42,8 +42,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by y in 2x^0', () => {
-    const subst = new Substitute('x', new Var('y'));
-    const expr = new Var('x', 2, 0);
+    const subst = new Substitute('x', Var.var('y'));
+    const expr = new Var(2, 'x', 0);
     expr.accept(subst);
     const result = subst.result;
     
@@ -51,8 +51,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by y+1 in 2x^0', () => {
-    const subst = new Substitute('x', new Som([new Var('y'), new Var('CONST', 1, 0)]));
-    const expr = new Var('x', 2, 0);
+    const subst = new Substitute('x', new Som([Var.var('y'), Var.const(1)]));
+    const expr = new Var(2, 'x', 0);
     expr.accept(subst);
     const result = subst.result;
     
@@ -60,8 +60,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by y+1 in x^3', () => {
-    const subst = new Substitute('x', new Som([new Var('y'), new Var('CONST', 1, 0)]));
-    const expr = new Var('x', 1, 3);
+    const subst = new Substitute('x', new Som([Var.var('y'), Var.const(1)]));
+    const expr = new Var(1, 'x', 3);
     expr.accept(subst);
     const result = subst.result;
     
@@ -69,8 +69,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by y+1 in x*y', () => {
-    const subst = new Substitute('x', new Som([new Var('y'), new Var('CONST', 1, 0)]));
-    const expr = new Prod([new Var('x'), new Var('y')]);
+    const subst = new Substitute('x', new Som([Var.var('y'), Var.const(1)]));
+    const expr = new Prod([Var.var('x'), Var.var('y')]);
     expr.accept(subst);
     const result = subst.result;
     
@@ -78,8 +78,8 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by 1 in 2+x', () => {
-    const subst = new Substitute('x', new Var('CONST', 1, 0));
-    const expr = new Som([new Var('CONST', 2, 0), new Var('x')]);
+    const subst = new Substitute('x', Var.const(1));
+    const expr = new Som([Var.const(2), Var.var('x')]);
     expr.accept(subst);
     const result = subst.result;
     
@@ -87,10 +87,10 @@ describe('testing Substitute visitor', () => {
   })
 
   test('Substitute x by 1 in (2+x)*x', () => {
-    const subst = new Substitute('x', new Var('CONST', 1, 0));
+    const subst = new Substitute('x', Var.const(1));
     const expr = new Prod([
-      new Som([new Var('CONST', 2, 0), new Var('x')]),
-      new Var('x')
+      new Som([Var.const(2), Var.var('x')]),
+      Var.var('x')
     ]);
     expr.accept(subst);
     const result = subst.result;

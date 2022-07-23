@@ -9,7 +9,7 @@ describe('testing Type visitor', () => {
   });
 
   test('Type Var', () => {
-    const expr = new Var('x');
+    const expr = Var.var('x');
     expr.accept(type);
     expect(type.var).not.toBeNull();
     expect(type.som).toBeNull();
