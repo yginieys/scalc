@@ -22,7 +22,7 @@ describe('testing Normalize visitor', () => {
     expr.accept(normalize);
     const result = normalize.result;
     
-    assertExprIs(result, '2*x^3');
+    assertExprIs(result, '2x^3');
   })
 
   test('Normalize Prod 2*2', () => {
@@ -55,6 +55,30 @@ describe('testing Normalize visitor', () => {
     const result = normalize.result;
     
     assertExprIs(result, '4*x^4');
+  })
+
+  test('Normalize Som 2+2', () => {
+    const expr = new Som([Term.const(2), Term.const(2)]);
+    expr.accept(normalize);
+    const result = normalize.result;
+    
+    assertExprIs(result, '4');
+  })
+
+  test('Normalize Som 2+2x', () => {
+    const expr = new Som([Term.const(2), Term.nVar(2, 'x')]);
+    expr.accept(normalize);
+    const result = normalize.result;
+    
+    assertExprIs(result, '2x+2');
+  })
+
+  test('Normalize Som x+2x', () => {
+    const expr = new Som([Term.var('x'), Term.nVar(2, 'x')]);
+    expr.accept(normalize);
+    const result = normalize.result;
+    
+    assertExprIs(result, '3x');
   })
 
 
