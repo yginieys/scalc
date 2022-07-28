@@ -17,6 +17,54 @@ describe('testing Multiply visitor', () => {
     assertExprIs(result, '');  // Vide accepté car element neutre
   })
 
+  test('Multiply 2', () => {
+    const term = Term.const(2);
+    mult.push(term);
+    const result = mult.eval();
+    
+    assertExprIs(result, '2');  // Vide accepté car element neutre
+  })
+
+  test('Multiply x', () => {
+    const term = Term.var('x');
+    mult.push(term);
+    const result = mult.eval();
+    
+    assertExprIs(result, 'x'); 
+  })
+
+  test('Multiply 1*x', () => {
+    mult.push(Term.const(1));
+    mult.push(Term.var('x'));
+    const result = mult.eval();
+    
+    assertExprIs(result, 'x');
+  })
+
+  test('Multiply 2x', () => {
+    const term = Term.nVar(2, 'x');
+    mult.push(term);
+    let result = mult.eval();
+    assertExprIs(result, '2*x');
+
+    mult = new Multiply({ extractConst: false });
+    mult.push(term);
+    result = mult.eval();
+    assertExprIs(result, '2x');
+  })
+
+  test('Multiply x*2', () => {
+    const term = new Prod([Term.var('x'), Term.const(2)]);
+    mult.push(term);
+    let result = mult.eval();
+    assertExprIs(result, '2*x');
+
+    mult = new Multiply({ extractConst: false });
+    mult.push(term);
+    result = mult.eval();
+    assertExprIs(result, '2x');
+  })
+
   test('Multiply 2 * 3', () => {
     mult.push(Term.const(2));
     mult.push(Term.const(3));
@@ -50,7 +98,8 @@ describe('testing Multiply visitor', () => {
     ]));
     const result = mult.eval();
     
-    assertExprIs(result, 'x*(3+2x)');
+    assertExprIs(result, '2*x^2+3*x');
+    //assertExprIs(result, 'x*(3+2x)');
   })
 
 

@@ -1,33 +1,54 @@
 import { Term, Som, Prod, Expr } from "expr";
+import { Add } from "./Add";
 import { Visitor } from "./Visitor";
 
+type Options = { extractConst: boolean, debug?: boolean };
+
 export class Multiply implements Visitor {
+  private options: Options;
   private constValue: number = 1;
   private varByName: {[key:string]: { coefficient: number, exposant: number }} = {};
   public otherExpr: Expr[] = [];
+
+  constructor(options: Options = { extractConst: true, debug: false }) {
+    this.options = options;
+  }
 
   /**
    * Build the result of this Multiplication
    * @returns Prod
    */
-   public eval(): Prod {
+   public eval(): Expr {
     const args: Expr[] = [];
+    if(this.options.debug) {
+      console.log(this);
+    }
     // Process Const
-    if(this.constValue != 1) {
+    if(this.options.extractConst && this.constValue != 1) {
       args.push(Term.const(this.constValue));
     }
     // Process Vars
     let varNames = Object.keys(this.varByName);
+    let constIntegrated = false;
     varNames = varNames.sort();
-    varNames.forEach(varName => {
-      if(this.varByName[varName].exposant != 0 || this.varByName[varName].coefficient != 1) {
-        args.push(new Term(this.varByName[varName].coefficient, varName, this.varByName[varName].exposant));
+    varNames.forEach((varName) => {
+      if(this.varByName[varName].exposant != 0) {
+        if(!this.options.extractConst && !constIntegrated) {
+          args.push(new Term(this.varByName[varName].coefficient * this.constValue, varName, this.varByName[varName].exposant));
+          constIntegrated = true;
+        } else {
+          args.push(new Term(this.varByName[varName].coefficient, varName, this.varByName[varName].exposant));
+        }
       }
     });
     // Process Others exprs
     args.push(...this.otherExpr);
 
-    return new Prod(args);
+    if(args.length == 1) {
+      return args[0];  
+    } else {
+      return new Prod(args);
+    }
    }
 
   /**
@@ -52,7 +73,12 @@ export class Multiply implements Visitor {
   }
 
   visitSom(expr: Som): void {
-    this.otherExpr.push(expr);
+    const add = new Add();
+    expr.args.forEach(term => {
+      add.push(term);
+    });
+    this.push(add.eval());
+    //this.otherExpr.push(expr);
   }
 
   visitProd(expr: Prod): void {

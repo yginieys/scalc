@@ -1,4 +1,5 @@
 import { Term, Som, Prod, Expr } from "expr";
+import { Multiply } from "./Multiply";
 import { Visitor } from "./Visitor";
 
 export class Add implements Visitor {
@@ -56,7 +57,11 @@ export class Add implements Visitor {
   }
 
   visitProd(expr: Prod): void {
-    this.otherExprs.push(expr);
+    const mult = new Multiply({ extractConst: false });
+    expr.args.forEach(term => {
+      mult.push(term);
+    });
+    this.push(mult.eval());
   }
 
 }
